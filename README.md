@@ -27,7 +27,7 @@ OpenCV DNN
 - **Kernel** – sensor driver, CSI-2 transport, buffer handling  
 - **libcamera** – ISP control (AE, AWB, gain), frame delivery  
 - **Application** – capture, preprocessing, postprocessing  
-- **OpenCV DNN** – neural network inference
+- **OpenCV DNN** – neural network inference 
 
 ## Target
 
