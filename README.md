@@ -1,5 +1,9 @@
 # Zero2Vision
 
+![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Devraux.Zero2Vision)
+![Status](https://img.shields.io/badge/status-Under%20Development-yellow?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.0.0-brightgreen?style=flat-square)
+
 Lightweight C++ object detection pipeline for Raspberry Pi Zero 2 W  
 using **libcamera** for capture and **OpenCV DNN** for inference.
 ## Architecture
@@ -30,3 +34,5 @@ OpenCV DNN
 - Raspberry Pi Zero 2 W  
 - OV5647 camera  
 - Raspberry Pi OS 
+
+
