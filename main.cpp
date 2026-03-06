@@ -1,13 +1,21 @@
 #include <iostream>
+#include <string>
+#include <vector>
 
-#include "Camera.hpp"
 #include "http.hpp"
+#include "Camera.hpp"
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <netdb.h>
 
-int main()
-{
-	std::cout << "Raspberry Pi Zero" << std::endl;
-    std::cout << "Raspberry Pi Zero" << std::endl;
-	
+int main() {
+
+    std::cout << "Raspberry Pi Zero 2 W" << std::endl;
+
     return 0;
+
 }

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(Zero2Vision)
+add_compile_definitions(_GNU_SOURCE)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,6 +14,8 @@ set(SOURCES
     HTTP/http.cpp
 )
 
+add_definitions(-D_GNU_SOURCE)
+
 add_executable(Zero2Vision ${SOURCES})
 
 target_include_directories(Zero2Vision PRIVATE
@@ -21,4 +24,7 @@ target_include_directories(Zero2Vision PRIVATE
     HTTP
 )
 
-target_link_libraries(Zero2Vision ${OpenCV_LIBS} pthread)
+target_link_libraries(Zero2Vision
+    ${OpenCV_LIBS}
+    pthread
+)
