@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(Zero2Vision)
+
+set(CMAKE_UNITY_BUILD ON)
+set(CMAKE_UNITY_BUILD_BATCH_SIZE 0)
+
 add_compile_definitions(_GNU_SOURCE)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -17,6 +21,13 @@ set(SOURCES
 add_definitions(-D_GNU_SOURCE)
 
 add_executable(Zero2Vision ${SOURCES})
+
+target_precompile_headers(Zero2Vision PRIVATE
+    <opencv2/opencv.hpp>
+    <vector>
+    <string>
+    <mutex>
+)
 
 target_include_directories(Zero2Vision PRIVATE
     ${OpenCV_INCLUDE_DIRS}
