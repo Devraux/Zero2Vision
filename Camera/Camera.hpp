@@ -7,16 +7,19 @@
 #include "http.hpp"
 #include <thread>
 
-class camera{
+class Camera{
 
     private:
-        cv::Mat frame;
+        cv::VideoCapture cap;
 
     public:
-    camera()
-    ~camera() = default;
+        Camera();
+        ~Camera() = default;
+        void cameraCaptureStart();
+        cv::Mat getFrame();
 
-    void cameraCaptureStart();
+        std::mutex frameMutex;
+        cv::Mat frame;
 
 };
 

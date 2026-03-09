@@ -7,23 +7,20 @@
 #include <queue>
 #include <mutex>
 
+#include "Camera.hpp"
+
 // HTTP SERVER IMPLEMENTATION
 
-struct Frame{
-    std::mutex Mutex;    // read/write lock
-    cv::Mat frame;       // video frame
-};
-
-class http{
+class Http{
 
     private:
-        std::queue<Frame> q;
-        http();
+        Camera& camera;
 
     public:
-        void httpStart();
-        bool frameQueuePush();  // todo 
-        bool frameQueuPop();    // todo
+        Http(Camera& cam);
+        ~Http() = default;
+
+        void httpServerStart();
 };
 
 #endif
