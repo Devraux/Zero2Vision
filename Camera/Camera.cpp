@@ -1,49 +1,43 @@
 #include "Camera.hpp"
 
-Camera::Camera() : cap(0, cv::CAP_V4L2)
+Camera::Camera() : cap( "libcamerasrc ! "
+                        "video/x-raw,width=640,height=480,framerate=30/1 ! "
+                        "videoconvert ! "
+                        "appsink drop=true",
+                        cv::CAP_GSTREAMER)
 {
     if(!cap.isOpened())
-    {
-        std::cerr << "Firmware can't open camera device" << std::endl;
-        throw std::runtime_error("Firmware can't ope camera device");
-    }
-
-    // set camera resolution
-    cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-    cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
-
-    // todo set other camera properties
+        throw std::runtime_error("Camera can't open device");
 }
 
 void Camera::cameraCaptureStart()
 {
-    
-    std::cout << "Camera started video capturig" << std::endl;
+    std::cout << "Camera started video capturing" << std::endl;
+
+    cv::Mat newFrame;
+
     while(true)
     {
         // Capture new frame
-        cv::Mat newFrame;
-        cap.read(newFrame);
-        
-        //Check frame corecctness
-        if(newFrame.empty())
-        {
-            std::cerr << "Received empty or can't receive frame, check hardware camera connection" << std::endl;
-            break;
+        if(!cap.read(newFrame)) {
+            std::cerr << "Camera read failed" << std::endl;
+            continue;
         }
 
-        cv::waitKey(1);
+        if(newFrame.empty()) {
+            std::cerr << "Received empty frame" << std::endl;
+            continue;
+        }
+        std::cout << "Frame: " << newFrame.cols << "x" << newFrame.rows << std::endl;
             
-        
         std::lock_guard<std::mutex> lock(frameMutex);
-        frame = newFrame;
+        frame = newFrame.clone();
     }
 }
 
+
 cv::Mat Camera::getFrame()
 {
-
     std::lock_guard<std::mutex> lock(frameMutex);
-
     return frame.clone();
 }

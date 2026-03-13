@@ -13,7 +13,14 @@
 int main() {
 
     std::cout << "Raspberry Pi Zero 2 W" << std::endl;
+    Camera camera;
+    std::thread cameraThread(&Camera::cameraCaptureStart, &camera);
 
+    Http http(camera);
+    http.httpServerStart();
+    
+    cameraThread.join();
+    
     return 0;
 
 }

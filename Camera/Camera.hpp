@@ -16,8 +16,8 @@ class Camera{
         Camera();
         ~Camera() = default;
         void cameraCaptureStart();
+        
         cv::Mat getFrame();
-
         std::mutex frameMutex;
         cv::Mat frame;
 
