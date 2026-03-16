@@ -16,6 +16,7 @@ void Camera::cameraCaptureStart()
 
     cv::Mat newFrame;
 
+
     while(true)
     {
         // Capture new frame
@@ -28,8 +29,17 @@ void Camera::cameraCaptureStart()
             std::cerr << "Received empty frame" << std::endl;
             continue;
         }
-        std::cout << "Frame: " << newFrame.cols << "x" << newFrame.rows << std::endl;
-            
+
+        // fill metada
+        frameTimeCpy = imageMetadata.frameTime;
+	    frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+
+        imageMetadata.frameTime = frameTime;
+        imageMetadata.frameCounter++;
+        imageMetadata.fpsValue = (1000.0 / (frameTime - frameTimeCpy));
+
+        //std::cout << "Frame: " << newFrame.cols << "x" << newFrame.rows << std::endl;
+
         std::lock_guard<std::mutex> lock(frameMutex);
         frame = newFrame.clone();
     }
@@ -40,4 +50,10 @@ cv::Mat Camera::getFrame()
 {
     std::lock_guard<std::mutex> lock(frameMutex);
     return frame.clone();
+}
+
+bool Camera::cameraGetMetadata(ImageMetadata& data) const
+{
+    data = imageMetadata;
+    return true;
 }

@@ -15,6 +15,7 @@ class Http{
 
     private:
         Camera& camera;
+        ImageMetadata imageMetadata;
 
     public:
         Http(Camera& cam);
