@@ -11,7 +11,8 @@ void Http::httpServerStart()
 {
     httplib::Server svr;
 
-    svr.Get("/frame.jpg", [this](const httplib::Request&, httplib::Response& res) {
+    svr.Get("/frame.jpeg", [this](const httplib::Request&, httplib::Response& res) {
+
         cv::Mat frame = camera.getFrame();
 
         if (frame.empty()) {
@@ -21,8 +22,10 @@ void Http::httpServerStart()
         }
 
         std::vector<uchar> buf;
-        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 95};
-        cv::imencode(".jpg", frame, buf, params);
+
+        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, 80}; // JPEG image type case
+        //std::vector<int> params = {cv::IMWRITE_PNG_COMPRESSION, 2};
+        cv::imencode(".jpeg", frame, buf, params);
 
         res.set_content(reinterpret_cast<const char*>(buf.data()), buf.size(), "image/jpeg");
     });
@@ -45,7 +48,7 @@ void Http::httpServerStart()
        res.set_content(metaDataReport, "application/json");
     });
 
-    std::cout << "HTTP server started at http://0.0.0.0:8080/frame.jpg" << std::endl;
+    std::cout << "HTTP server started at http://0.0.0.0:8080/frame.jpeg" << std::endl;
 
     svr.listen("0.0.0.0", 8080);
 }
