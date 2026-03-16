@@ -11,10 +11,6 @@ using **libcamera** for capture and **OpenCV DNN** for inference.
 ```
 OV5647 Sensor
    ↓
-Kernel Driver (I2C + CSI-2)
-   ↓
-V4L2 / Media Controller
-   ↓
 libcamera (ISP control)
    ↓
 Zero2Vision (C++)
@@ -34,5 +30,8 @@ OpenCV DNN
 - Raspberry Pi Zero 2 W  
 - OV5647 camera  
 - Raspberry Pi OS 
+
+## Working example
+<img width="802" height="604" alt="image" src="https://github.com/user-attachments/assets/a8fbf52c-ed06-419a-9e57-235bacc82bbb" />
 
 
