@@ -30,25 +30,27 @@ void Camera::cameraCaptureStart()
             continue;
         }
 
-        // fill metada
-        frameTimeCpy = imageMetadata.frameTime;
-	    frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+        // Debug only
+        //std::cout << "Frame: " << newFrame.cols << "x" << newFrame.rows << std::endl;
 
+        // Free  
+        std::lock_guard<std::mutex> lock(cameraMtx);
+        frame = newFrame.clone();
+
+ 	    // fill metada
+        frameTimeCpy = imageMetadata.frameTime;
+        frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
         imageMetadata.frameTime = frameTime;
         imageMetadata.frameCounter++;
         imageMetadata.fpsValue = (1000.0 / (frameTime - frameTimeCpy));
 
-        //std::cout << "Frame: " << newFrame.cols << "x" << newFrame.rows << std::endl;
-
-        std::lock_guard<std::mutex> lock(frameMutex);
-        frame = newFrame.clone();
     }
 }
 
 
 cv::Mat Camera::getFrame()
 {
-    std::lock_guard<std::mutex> lock(frameMutex);
+    std::lock_guard<std::mutex> lock(cameraMtx);
     return frame.clone();
 }
 

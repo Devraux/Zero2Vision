@@ -33,6 +33,7 @@ target_include_directories(Zero2Vision PRIVATE
     ${OpenCV_INCLUDE_DIRS}
     Camera
     HTTP
+    tinyYolo
 )
 
 target_link_libraries(Zero2Vision

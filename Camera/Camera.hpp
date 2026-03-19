@@ -13,6 +13,8 @@ class Camera{
     private:
         cv::VideoCapture cap;
         ImageMetadata imageMetadata;
+        std::mutex cameraMtx;
+
         uint64_t frameTimeCpy = 0;
         uint64_t frameTime = 0;
 
@@ -23,7 +25,6 @@ class Camera{
         bool cameraGetMetadata(ImageMetadata& data) const;
         
         cv::Mat getFrame();
-        std::mutex frameMutex;
         cv::Mat frame;
 
 };
