@@ -12,6 +12,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
+
+
 set(SOURCES
     main.cpp
     Camera/Camera.cpp
@@ -33,7 +35,6 @@ target_include_directories(Zero2Vision PRIVATE
     ${OpenCV_INCLUDE_DIRS}
     Camera
     HTTP
-    tinyYolo
 )
 
 target_link_libraries(Zero2Vision

@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <mutex>
 
+#define detectionsMaxNumber 10
+
 struct ImageMetadata {
     uint64_t frameTime = 0;
     uint64_t frameCounter = 0;
@@ -12,13 +14,14 @@ struct ImageMetadata {
     uint32_t frameHeight = 480;
 };
 
-struct objectDetectionInfo {
+
+struct ObjectDetectionInfo {
     uint32_t classId = 0;
     float confidence = 0.0f;
-    uint32_t x;
-    uint32_t y;
-    uint32_t width = 0;
-    uint32_t height = 0;
+    int x;
+    int y;
+    int width = 0;
+    int height = 0;
 };
 
 #endif
