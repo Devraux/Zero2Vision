@@ -80,56 +80,35 @@ void Camera::detectObjects(cv::Mat& img, uint detectionLimit)
     std::vector<cv::Mat> outputs;
     net.forward(outputs, net.getUnconnectedOutLayersNames());
 
-    std::vector<ObjectDetectionInfo> detection;
-    detection.reserve(detectionLimit);
 
-    const float confThreshold = 0.5f;
-
-    for (size_t o = 0; o < outputs.size(); o++)
+    // Check MAT0 and MAT1
+    for (size_t i = 0; i < outputs.size(); i++)
     {
-        cv::Mat& out = outputs[o];
+
+        // SKIP BIGGER (FASTER) OBJECT DETECTION -> SKIP MAT0 //
+        if(i == 0)
+        {
+            continue;
+        }
+        // -------------------------------------------------- //
+
+        cv::Mat& out = outputs[i];
         float* data = (float*)out.data;
+        float confidence = data[4];
 
         for (int j = 0; j < out.rows; j++)
         {
-            float objConf = data[4];
-
-            if (true /*objConf > confThreshold*/)
+            if(confidence < minConfidenceLevel)
             {
-                int classId = 0;
-                float bestClass = data[5];
-
-                for (int c = 1; c < 80; c++)
-                {
-                    if (data[5 + c] > bestClass)
-                    {
-                        bestClass = data[5 + c];
-                        classId = c;
-                    }
-                }
-
-                ObjectDetectionInfo obj;
-
-                obj.x = data[0];
-                obj.y = data[1];
-                obj.width = data[2];
-                obj.height = data[3];
-                obj.confidence = objConf * bestClass;
-                obj.classId = classId;
-
-                detection.push_back(obj);
-
-                if (detection.size() > detectionLimit)
-                {
-                    detection.erase(detection.begin());
-                }
+                break; 
             }
 
-            data += 85;
-        }
-    }
 
-    detectedObjects = detection;
+            
+        }
+
+        data += 85; //jump to next row
+    }
 }
 
 const std:: vector<ObjectDetectionInfo>& Camera::getDetections() const

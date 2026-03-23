@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <mutex>
 
-#define detectionsMaxNumber 10
+#define minConfidenceLevel (0.6)
 
 struct ImageMetadata {
     uint64_t frameTime = 0;
