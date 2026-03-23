@@ -94,20 +94,20 @@ void Camera::detectObjects(cv::Mat& img, uint detectionLimit)
 
         cv::Mat& out = outputs[i];
         float* data = (float*)out.data;
-        float confidence = data[4];
 
         for (int j = 0; j < out.rows; j++)
         {
+            float confidence = data[4];
+                
             if(confidence < minConfidenceLevel)
             {
-                break; 
+                data += 85; // jump to next row
+                continue; 
             }
 
 
-            
+            data += 85; // jump to next row 
         }
-
-        data += 85; //jump to next row
     }
 }
 
