@@ -17,6 +17,7 @@ struct ImageMetadata {
 
 struct ObjectDetectionInfo {
     uint32_t classId = 0;
+    float objectness = 0.0f;
     float confidence = 0.0f;
     int x;
     int y;

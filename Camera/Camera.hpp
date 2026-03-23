@@ -23,7 +23,7 @@ class Camera{
         uint64_t frameTimeCpy = 0;
         uint64_t frameTime = 0;
 
-        void detectObjects(cv::Mat& img, uint detectionLimit);
+        void detectObjects(cv::Mat& img);
 
     public:
         Camera();

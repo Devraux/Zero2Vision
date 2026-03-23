@@ -51,7 +51,7 @@ void Camera::cameraCaptureStart()
         if(++detectionCounter > 5)
         {
             // Calculate object detections
-            detectObjects(frame, detectionsMaxNumber);
+            detectObjects(frame);
             detectionCounter = 0;
         }
     }
@@ -70,7 +70,7 @@ bool Camera::cameraGetMetadata(ImageMetadata& data) const
     return true;
 }
 
-void Camera::detectObjects(cv::Mat& img, uint detectionLimit)
+void Camera::detectObjects(cv::Mat& img)
 {
     cv::Mat blob;
     cv::dnn::blobFromImage(img, blob, 1/255.0, cv::Size(416, 416));
@@ -80,6 +80,9 @@ void Camera::detectObjects(cv::Mat& img, uint detectionLimit)
     std::vector<cv::Mat> outputs;
     net.forward(outputs, net.getUnconnectedOutLayersNames());
 
+    ObjectDetectionInfo objectInfo;
+
+    detectedObjects.clear();
 
     // Check MAT0 and MAT1
     for (size_t i = 0; i < outputs.size(); i++)
@@ -104,9 +107,32 @@ void Camera::detectObjects(cv::Mat& img, uint detectionLimit)
                 data += 85; // jump to next row
                 continue; 
             }
+            
+            float w = data[2] * img.cols;
+            float h = data[3] * img.rows;
 
+            objectInfo.x            = (data[0] * img.cols) - (w / 2.0f); // X_center
+            objectInfo.y            = (data[1] * img.rows) - (h / 2.0f); // Y_center
+            objectInfo.width        = w; // Width
+            objectInfo.height       = h; // Height
+            objectInfo.objectness   = data[4]; // Objectness
+            
+            // Find highest confidence and related object
+            cv::Mat scores = out.row(j).colRange(5, 85);
+            double classConfidence {0.0f};
+            cv::Point classId;
 
-            data += 85; // jump to next row 
+            cv::minMaxLoc(scores, 0, &classConfidence, 0, &classId);
+            objectInfo.classId      = classId.x;
+            objectInfo.confidence   = (float)classConfidence;
+            
+            detectedObjects.insert(detectedObjects.begin(), objectInfo);
+            if(detectedObjects.size() > 100)
+            {
+                detectedObjects.pop_back();
+            }
+        
+            data += 85; // jump to next row
         }
     }
 }
