@@ -51,7 +51,7 @@ void Camera::cameraCaptureStart()
         if(++detectionCounter > 5)
         {
             // Calculate object detections
-            detectObjects(frame);
+            // detectObjects(frame);
             detectionCounter = 0;
         }
     }
@@ -73,7 +73,7 @@ bool Camera::cameraGetMetadata(ImageMetadata& data) const
 void Camera::detectObjects(cv::Mat& img)
 {
     cv::Mat blob;
-    cv::dnn::blobFromImage(img, blob, 1/255.0, cv::Size(416, 416));
+    cv::dnn::blobFromImage(img, blob, 1/255.0, cv::Size(416, 416), cv::Scalar(), true, false);
 
     net.setInput(blob);
 
@@ -89,10 +89,10 @@ void Camera::detectObjects(cv::Mat& img)
     {
 
         // SKIP BIGGER (FASTER) OBJECT DETECTION -> SKIP MAT0 //
-        if(i == 0)
-        {
-            continue;
-        }
+        //if(i == 0)
+        //{
+        //   continue;
+        //}
         // -------------------------------------------------- //
 
         cv::Mat& out = outputs[i];
@@ -101,9 +101,10 @@ void Camera::detectObjects(cv::Mat& img)
         for (int j = 0; j < out.rows; j++)
         {
             float confidence = data[4];
-                
+            std::cout<< "confidence: " << confidence << std::endl;
+
             if(confidence < minConfidenceLevel)
-            {
+            {  
                 data += 85; // jump to next row
                 continue; 
             }
@@ -126,6 +127,8 @@ void Camera::detectObjects(cv::Mat& img)
             objectInfo.classId      = classId.x;
             objectInfo.confidence   = (float)classConfidence;
             
+            std::cout << "confidence: " << confidence << "Class ID: " << classId.x << std::endl;
+
             detectedObjects.insert(detectedObjects.begin(), objectInfo);
             if(detectedObjects.size() > 100)
             {
