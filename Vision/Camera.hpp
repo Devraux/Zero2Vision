@@ -15,7 +15,6 @@ class Camera{
         cv::VideoCapture cap;
         ImageMetadata imageMetadata; //Current frame metadata
         std::mutex cameraMtx;   // Camera hardware mutex
-        cv::dnn::Net net;       // Deep Neural Network
         cv::Mat frame;          // Current frame 
 
         // TODO: Replace with static in dedicated function
@@ -43,15 +42,18 @@ class Camera{
 
 class ObjectDetection{
     private:
-        ImageMetadata iamgeMetadata;
+        ImageMetadata imageMetadata;
         std::vector<ObjectDetectionInfo> detectedObjects;
+        cv::dnn::Net net; // Deep Neural Network
 
         const std::vector<ObjectDetectionInfo>& getDetections() const;
-        void detectObjects(cv::Mat);
+        void detectObjects(cv::Mat& img);
         
 
-    public: 
-        void objectDetectionStart(cv:Mat);
+    public:
+        ObjectDetection();
+        ~ObjectDetection() = default;
+        void objectDetectionStart();
 };
     
 

@@ -9,7 +9,7 @@ Camera::Camera() : cap( "libcamerasrc ! "
     if(!cap.isOpened())
         throw std::runtime_error("Camera can't open device");
 
-    net = cv::dnn::readNetFromDarknet("../tinyYolo/yolov4-tiny.cfg", "../tinyYolo/yolov4-tiny.weights");
+    //net = cv::dnn::readNetFromDarknet("../tinyYolo/yolov4-tiny.cfg", "../tinyYolo/yolov4-tiny.weights");
  
 }
 
@@ -71,7 +71,14 @@ bool Camera::cameraGetMetadata(ImageMetadata& data) const
     return true;
 }
 
-void ::detectObjects(cv::Mat& img)
+
+ObjectDetection::ObjectDetection()
+{
+    net = cv::dnn::readNetFromDarknet("../tinyYolo/yolov4-tiny.cfg", "../tinyYolo/yolov4-tiny.weights"); 
+}
+
+
+void ObjectDetection::detectObjects(cv::Mat& img)
 {
     cv::Mat blob;
     cv::dnn::blobFromImage(img, blob, 1/255.0, cv::Size(416, 416), cv::Scalar(), true, false);
@@ -82,7 +89,6 @@ void ::detectObjects(cv::Mat& img)
     net.forward(outputs, net.getUnconnectedOutLayersNames());
 
     ObjectDetectionInfo objectInfo;
-
     detectedObjects.clear();
 
     // Check MAT0 and MAT1
@@ -142,7 +148,7 @@ void ::detectObjects(cv::Mat& img)
     }
 }
 
-void Vision::cameraObjectDetectionStart()
+void ObjectDetection::objectDetectionStart()
 {
     
     std::cout << "Camera object detection processing thread started" << std::endl;
@@ -153,7 +159,7 @@ void Vision::cameraObjectDetectionStart()
     {
         // Check if detection is necessary
         // Due to limited resources optimize object detection to process every (e.g.) fourth frame 
-        Camera::cameraGetMetadata(&imageMetadata)
+        Camera::cameraGetMetadata(imageMetadata)
         if(imageMetadata.frameCounter < (frameCounterCpy + 4))
         {
             std::this_thread::yield();
@@ -162,7 +168,7 @@ void Vision::cameraObjectDetectionStart()
         frameCounterCpy = imageMetadata.frameCounter;
 
         cv::Mat frameToProcess;
-        frameToProcess = getFrame();
+        frameToProcess = Camera::getFrame();
 
         if(!frameToProcess.empty())
         {

@@ -2,7 +2,7 @@
 
 
 
-Http::Http(Camera& cam) : camera(cam) {}
+Http::Http(Camera& cam, ObjectDetection objDetect) : camera(cam), objectDetection(objDet) {}
 
 void Http::httpServerStart()
 {

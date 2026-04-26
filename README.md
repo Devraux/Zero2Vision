@@ -2,7 +2,7 @@
 
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=Devraux.Zero2Vision)
 ![Status](https://img.shields.io/badge/status-Under%20Development-yellow?style=flat-square)
-![Version](https://img.shields.io/badge/version-1.0.1-brightgreen?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.0.2-brightgreen?style=flat-square)
 
 Lightweight C++ object detection pipeline for Raspberry Pi Zero 2 W  
 using **libcamera** for capture and **OpenCV DNN** for inference.

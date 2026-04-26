@@ -18,10 +18,11 @@ class Http{
 
     private:
         Camera& camera;
+        ObjectDetection& objectDetetion;
         ImageMetadata imageMetadata;
 
     public:
-        Http(Camera& cam);
+        Http(Camera& cam, ObjectDetection& objDet);
         ~Http() = default;
 
         void httpServerStart();
