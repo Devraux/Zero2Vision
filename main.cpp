@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <netdb.h>
 
+
 int main() {
 
     std::cout << "Raspberry Pi Zero 2 W" << std::endl;
@@ -18,9 +19,13 @@ int main() {
 
     Http http(camera);
     http.httpServerStart();
+
+
+    std::thread objectDetectionStart(&Camera::cameraObjectDetectionStart, &camera);
+    objectDetectionStart.join();
     
     cameraThread.join();
     
     return 0;
-
+ 
 }

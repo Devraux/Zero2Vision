@@ -7,5 +7,7 @@
 .vscode/
 .idea/
 
+/tinyYolo/
+
 .DS_Store
 Thumbs.db
