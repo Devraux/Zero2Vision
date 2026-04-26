@@ -53,7 +53,7 @@ class ObjectDetection{
     public:
         ObjectDetection();
         ~ObjectDetection() = default;
-        void objectDetectionStart();
+        void objectDetectionStart(Camera& camera);
 };
     
 

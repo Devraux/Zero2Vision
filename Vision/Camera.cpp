@@ -148,7 +148,7 @@ void ObjectDetection::detectObjects(cv::Mat& img)
     }
 }
 
-void ObjectDetection::objectDetectionStart()
+void ObjectDetection::objectDetectionStart(Camera& camera)
 {
     
     std::cout << "Camera object detection processing thread started" << std::endl;
@@ -159,7 +159,7 @@ void ObjectDetection::objectDetectionStart()
     {
         // Check if detection is necessary
         // Due to limited resources optimize object detection to process every (e.g.) fourth frame 
-        Camera::cameraGetMetadata(imageMetadata)
+        camera.cameraGetMetadata(imageMetadata)
         if(imageMetadata.frameCounter < (frameCounterCpy + 4))
         {
             std::this_thread::yield();
@@ -168,7 +168,7 @@ void ObjectDetection::objectDetectionStart()
         frameCounterCpy = imageMetadata.frameCounter;
 
         cv::Mat frameToProcess;
-        frameToProcess = Camera::getFrame();
+        frameToProcess = camera.getFrame();
 
         if(!frameToProcess.empty())
         {
