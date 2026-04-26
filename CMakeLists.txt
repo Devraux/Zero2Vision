@@ -16,8 +16,8 @@ find_package(OpenCV REQUIRED)
 
 set(SOURCES
     main.cpp
-    Camera/Camera.cpp
-    HTTP/http.cpp
+    Vision/Camera.cpp
+    Network/http.cpp
 )
 
 add_definitions(-D_GNU_SOURCE)
@@ -33,8 +33,8 @@ target_precompile_headers(Zero2Vision PRIVATE
 
 target_include_directories(Zero2Vision PRIVATE
     ${OpenCV_INCLUDE_DIRS}
-    Camera
-    HTTP
+    Vision
+    Network
 )
 
 target_link_libraries(Zero2Vision
