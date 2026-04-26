@@ -159,7 +159,7 @@ void ObjectDetection::objectDetectionStart(Camera& camera)
     {
         // Check if detection is necessary
         // Due to limited resources optimize object detection to process every (e.g.) fourth frame 
-        camera.cameraGetMetadata(imageMetadata)
+        camera.cameraGetMetadata(imageMetadata);
         if(imageMetadata.frameCounter < (frameCounterCpy + 4))
         {
             std::this_thread::yield();

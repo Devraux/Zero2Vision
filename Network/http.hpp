@@ -18,7 +18,7 @@ class Http{
 
     private:
         Camera& camera;
-        ObjectDetection& objectDetetion;
+        ObjectDetection& objectDetection;
         ImageMetadata imageMetadata;
 
     public:

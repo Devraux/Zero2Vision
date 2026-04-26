@@ -2,7 +2,7 @@
 
 
 
-Http::Http(Camera& cam, ObjectDetection objDetect) : camera(cam), objectDetection(objDet) {}
+Http::Http(Camera& cam, ObjectDetection& objDet) : camera(cam), objectDetection(objDet) {}
 
 void Http::httpServerStart()
 {
@@ -49,7 +49,7 @@ void Http::httpServerStart()
     // Object detections
 	svr.Get("/detections.json", [this](const httplib::Request&, httplib::Response& res)
     {
-        const std::vector<ObjectDetectionInfo>& detections = camera.getDetections();
+        const std::vector<ObjectDetectionInfo>& detections = objectDetection.getDetections();
 
         std::string json = "[";
 

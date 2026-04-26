@@ -45,8 +45,8 @@ class ObjectDetection{
         ImageMetadata imageMetadata;
         std::vector<ObjectDetectionInfo> detectedObjects;
         cv::dnn::Net net; // Deep Neural Network
-
-        const std::vector<ObjectDetectionInfo>& getDetections() const;
+                          
+                          
         void detectObjects(cv::Mat& img);
         
 
@@ -54,6 +54,8 @@ class ObjectDetection{
         ObjectDetection();
         ~ObjectDetection() = default;
         void objectDetectionStart(Camera& camera);
+
+        const std::vector<ObjectDetectionInfo>& getDetections() const;
 };
     
 

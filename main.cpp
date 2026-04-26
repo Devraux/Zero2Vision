@@ -13,19 +13,26 @@
 
 int main() {
 
-    std::cout << "Raspberry Pi Zero 2 W" << std::endl;
+    std::cout << "Raspberry Pi Zero 2 W ZeroToVision App" << std::endl;
+    std::cout << "Camera hardware initialization" << std::endl;
     Camera camera;
+    ObjectDetection objectDetection;
+
     std::thread cameraThread(&Camera::cameraCaptureStart, &camera);
 
-    Http http(camera);
-    http.httpServerStart();
+    std::cout<< "HTTP server initialization ..." << std::endl;
+    Http http(camera, objectDetection);
+    std::thread httpThread(&Http::httpServerStart, &http);
+    //http.httpServerStart();
 
 
-    std::thread objectDetectionStart(&Camera::cameraObjectDetectionStart, &camera);
-    objectDetectionStart.join();
+    std::thread detectionThread(&ObjectDetection::objectDetectionStart, 
+                                &objectDetection,
+                                std::ref(camera));
     
     cameraThread.join();
-    
+    detectionThread.join();
+    httpThread.join();
     return 0;
  
 }
