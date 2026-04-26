@@ -34,4 +34,6 @@ OpenCV DNN
 ## Working example
 <img width="802" height="604" alt="image" src="https://github.com/user-attachments/assets/a8fbf52c-ed06-419a-9e57-235bacc82bbb" />
 
+## Item detection example (Class Cup)
+<img width="805" height="603" alt="image" src="https://github.com/user-attachments/assets/27d8b9b9-345b-4bea-aa5e-bd236b1efbad" />
 
